@@ -60,6 +60,10 @@ type nameByType struct {
 }
 
 func getExpectedInputs(params *ast.FieldList) []nameByType {
+	if len(params.List) == 0 {
+		return nil
+	}
+
 	res := make([]nameByType, 0, len(params.List))
 	res = append(res, nameByType{
 		Type: fmt.Sprintf("%s", params.List[0].Type),
@@ -85,6 +89,10 @@ func shouldReplace(
 	params *ast.FieldList,
 	expected []nameByType,
 ) bool {
+	if len(expected) == 0 {
+		return false
+	}
+
 	numInputs := 0
 	for _, p := range params.List {
 		numInputs += len(p.Names)
